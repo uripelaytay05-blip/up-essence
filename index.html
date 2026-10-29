@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UP Essence | Alta Perfumería Árabe & Diseñador</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Externo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Fondo de Partículas Interactivas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand-logo">
+                <span class="brand-badge">TU ESENCIA, EN OTRO NIVEL</span>
+                <h1 class="logo-title">UP ESSENCE</h1>
+            </div>
+
+            <div class="nav-actions">
+                <!-- Botón Carrito de Compras -->
+                <button id="openCartBtn" class="action-btn cart-btn">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="btn-text">Carrito</span>
+                    <span id="cartBadgeCount" class="badge-count">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <span class="hero-tag">COLECCIÓN EXCLUSIVA 2026</span>
+            <h2>Fragancias que elevan tu esencia</h2>
+            <p>Explora la selección de fragancias de <strong>Diseñador</strong> y la opulencia de los perfumes <strong>Árabes</strong> más buscados.</p>
+        </div>
+    </section>
+
+    <!-- Main Section -->
+    <main class="main-layout">
+        <!-- Panel de Filtros y Búsqueda -->
+        <section class="controls-panel">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Buscar por nombre, marca o nota (ej: Vainilla, Oud, Manzana)...">
+                <button id="clearSearchBtn" class="clear-search-btn hidden"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Filtros por Categoría Principal -->
+            <div class="category-tabs">
+                <button class="tab-btn active" data-category="all">
+                    <i class="fa-solid fa-gem"></i> Todos
+                </button>
+                <button class="tab-btn designer-tab" data-category="disenador">
+                    <i class="fa-solid fa-crown"></i> Diseñador
+                </button>
+                <button class="tab-btn arab-tab" data-category="arabes">
+                    <i class="fa-solid fa-moon"></i> Perfumes Árabes
+                </button>
+                <button class="tab-btn niche-tab" data-category="nicho">
+                    <i class="fa-solid fa-gem"></i> Perfumería de Nicho
+                </button>
+            </div>
+
+            <!-- Filtros por Familia Olfativa -->
+            <div class="family-filters" id="familyFilters">
+                <span class="filter-label">Familia Olfativa:</span>
+                <button class="family-btn active" data-family="all">Todas</button>
+                <button class="family-btn" data-family="Gourmand">Dulce / Gourmand</button>
+                <button class="family-btn" data-family="Amaderado">Amaderado / Oud</button>
+                <button class="family-btn" data-family="Fresco">Fresco / Cítrico</button>
+                <button class="family-btn" data-family="Especiado">Especiado</button>
+            </div>
+        </section>
+
+        <!-- Grid de Productos -->
+        <section id="catalogGrid" class="catalog-grid">
+            <!-- Inyectado dinámicamente con JavaScript -->
+        </section>
+
+        <!-- Estado Sin Resultados -->
+        <div id="emptyState" class="empty-state hidden">
+            <i class="fa-solid fa-spray-can text-gold"></i>
+            <h3>No encontramos fragancias con esos criterios</h3>
+            <p>Intenta ajustar el buscador o seleccionar otra familia olfativa.</p>
+            <button id="resetFiltersBtn" class="btn-secondary">Restablecer Filtros</button>
+        </div>
+    </main>
+
+    <!-- Sidebar del Carrito de Compras -->
+    <aside id="cartDrawer" class="cart-drawer">
+        <div class="drawer-overlay" id="cartOverlay"></div>
+        <div class="drawer-content">
+            <div class="drawer-header">
+                <h3><i class="fa-solid fa-bag-shopping"></i> Tu Carrito</h3>
+                <button id="closeCartBtn" class="close-drawer-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div id="cartItemsContainer" class="cart-items-container">
+                <!-- Se inyectan los items del carrito -->
+            </div>
+
+            <div class="drawer-footer">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="cartSubtotal" class="subtotal-price">$0</span>
+                </div>
+                <div class="summary-row total-row">
+                    <span>Total Estimado:</span>
+                    <span id="cartTotalPrice" class="total-price">$0</span>
+                </div>
+                <button id="checkoutWhatsAppBtn" class="btn-checkout">
+                    <i class="fa-brands fa-whatsapp"></i> Finalizar Pedido por WhatsApp
+                </button>
+                <button id="clearCartBtn" class="btn-clear-cart">Vaciar Carrito</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Modal de Detalle de Perfume -->
+    <div id="detailModal" class="modal hidden">
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div class="modal-card">
+            <button id="closeModalBtn" class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-grid">
+                <div class="modal-media">
+                    <img id="modalImg" src="" alt="Perfume">
+                    <span id="modalCategoryBadge" class="modal-badge"></span>
+                </div>
+                <div class="modal-info">
+                    <span id="modalBrand" class="brand-title"></span>
+                    <h2 id="modalName" class="perfume-name"></h2>
+                    <p id="modalDesc" class="perfume-desc"></p>
+
+                    <!-- Pirámide Olfativa -->
+                    <div class="olfactory-pyramid">
+                        <h4><i class="fa-solid fa-layer-group"></i> Pirámide Olfativa</h4>
+                        <div class="notes-grid">
+                            <div class="note-box">
+                                <span class="note-type">🍊 Salida</span>
+                                <span id="modalTopNotes" class="note-val"></span>
+                            </div>
+                            <div class="note-box">
+                                <span class="note-type">💐 Corazón</span>
+                                <span id="modalHeartNotes" class="note-val"></span>
+                            </div>
+                            <div class="note-box">
+                                <span class="note-type">🪵 Fondo</span>
+                                <span id="modalBaseNotes" class="note-val"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Métricas de Rendimiento -->
+                    <div class="performance-metrics">
+                        <div class="metric">
+                            <div class="metric-head">
+                                <span><i class="fa-regular fa-clock"></i> Duración en Piel</span>
+                                <strong id="modalLongevity"></strong>
+                            </div>
+                            <div class="bar-bg"><div id="modalLongevityBar" class="bar-fill"></div></div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-head">
+                                <span><i class="fa-solid fa-wind"></i> Estela / Proyección</span>
+                                <strong id="modalSillage"></strong>
+                            </div>
+                            <div class="bar-bg"><div id="modalSillageBar" class="bar-fill gold"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="modal-action-bar">
+                        <div class="price-display">
+                            <span>Precio:</span>
+                            <strong id="modalPrice">$0</strong>
+                        </div>
+                        <button id="modalAddToCartBtn" class="btn-primary">
+                            <i class="fa-solid fa-cart-plus"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container Notificaciones Toast -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>UP ESSENCE</h3>
+            <p>Fragancias Exclusivas de Diseñador y Alta Perfumería Oriental</p>
+            <p class="copyright">&copy; 2026 UP Essence. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Externo -->
+    <script src="app.js"></script>
+</body>
+</html>
